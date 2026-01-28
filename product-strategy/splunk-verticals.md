@@ -8,9 +8,21 @@
 
 The Splunk ecosystem presents significant opportunities for third-party tooling across five distinct market verticals. Each vertical addresses specific pain points experienced by different personas within organizations using Splunk. This document outlines the problem space, target users, competitive landscape, and product opportunities for each vertical.
 
+### Quick Reference: The Five Verticals
+
+| # | Vertical | Primary Buyer | Key Pain Point | Value Proposition | Differentiator |
+|---|----------|---------------|----------------|-------------------|----------------|
+| 1 | **Governance & Compliance** | Compliance Officer | Audit readiness + data protection | "Audit-ready in minutes, not weeks" | Pre-built regulatory dashboards, PII detection |
+| 2 | **Cost Management & FinOps** | FinOps Engineer | License cost visibility | "Know exactly where every dollar goes" | Cost attribution + optimization |
+| 3 | **Admin Tooling & DevOps** | Splunk Admin | Config drift, troubleshooting | "Manage Splunk like modern infrastructure" | GitOps + performance diagnostics |
+| 4 | **User Governance** | CoE Lead | User accountability | "Make search efficiency everyone's problem" | "Wall of Sheep" scoring |
+| 5 | **Dashboard & Visualization** | Dashboard Authors | Inconsistent UX, branding | "Enterprise-grade dashboards in one click" | Templates, beautification, standardization |
+
 ---
 
 ## Vertical 1: Governance & Compliance
+
+> **Value Proposition:** *"Audit-ready in minutes, not weeks. Protect sensitive data before it becomes a breach."*
 
 ### Problem Space
 
@@ -21,14 +33,17 @@ Organizations using Splunk face increasing pressure to demonstrate compliance wi
 - **Knowledge ownership**: Unclear ownership of searches, dashboards, and reports
 - **Data lineage**: Limited visibility into how sensitive data flows through the platform
 - **Retention compliance**: Managing log retention across different regulatory requirements
+- **Sensitive data exposure**: PII, credentials, or secrets inadvertently logged
+- **Data masking**: Protecting sensitive fields in shared dashboards and exports
 
 ### Target Persona
 
 | Role | Pain Points | Buying Authority |
 |------|-------------|------------------|
 | **Compliance Officer** | Audit readiness, regulatory reporting | Budget holder |
-| **Splunk Admin** | Manual audit log compilation, policy enforcement | Influencer |
+| **Privacy Officer** | PII protection, GDPR compliance | Budget influencer |
 | **CISO** | Risk visibility, demonstrating security posture | Executive sponsor |
+| **Splunk Admin** | Manual audit log compilation, policy enforcement | Influencer |
 | **Internal Auditor** | Evidence collection, change tracking | Stakeholder |
 
 ### Competitive Landscape
@@ -36,6 +51,8 @@ Organizations using Splunk face increasing pressure to demonstrate compliance wi
 | Existing Solution | Strengths | Gaps |
 |-------------------|-----------|------|
 | Splunk's native audit logs | Basic access tracking | Limited reporting, no policy enforcement |
+| Splunk RBAC | Role-based access | No data-level masking, limited audit |
+| Third-party DLP tools | Broad coverage | Not Splunk-native, integration complexity |
 | SOAR integrations | Automation capabilities | Compliance-specific workflows lacking |
 | Manual spreadsheet tracking | Familiar | Unscalable, error-prone |
 
@@ -61,9 +78,34 @@ Organizations using Splunk face increasing pressure to demonstrate compliance wi
    - Compliance-aware data lifecycle automation
    - Storage cost impact analysis
 
+5. **PII & Sensitive Data Scanner** *(Privacy Sub-feature)*
+   - Automated PII/credential detection in ingested logs
+   - Pre-indexing data masking/redaction options
+   - Compliance reporting (what sensitive data exists where)
+   - Pattern library for SSN, credit cards, emails, API keys, passwords
+
+6. **Dynamic Data Masking Tool** *(Privacy Sub-feature)*
+   - Field-level masking based on user role
+   - Dashboard-safe data presentation
+   - Audit trail of unmasked access requests
+
+### MVP Feature Set
+
+| Feature | Effort | Impact | Priority |
+|---------|--------|--------|----------|
+| SOX/HIPAA/PCI compliance dashboards | Medium | High | P0 |
+| Automated audit report generation | Medium | High | P0 |
+| **PII/credential scanner** | Medium | High | P0 |
+| Knowledge object ownership tracking | Low | Medium | P1 |
+| Data access policy engine | High | High | P1 |
+| Dynamic field-level masking | High | Medium | P2 |
+| Retention policy automation | High | Medium | P2 |
+
 ---
 
 ## Vertical 2: Cost Management & FinOps
+
+> **Value Proposition:** *"Know exactly where every Splunk dollar goes. Optimize before you overspend."*
 
 ### Problem Space
 
@@ -115,63 +157,21 @@ Splunk licensing is notoriously expensive and often opaque. Organizations strugg
    - Real-time quota enforcement
    - Burst handling policies
 
----
+### MVP Feature Set
 
-## Vertical 3: Security & Privacy
-
-### Problem Space
-
-While Splunk is often used as a SIEM, the platform itself needs security. Concerns include:
-
-- **Sensitive data exposure**: PII, credentials, or secrets in logs
-- **Insider threat**: Detecting misuse of Splunk access
-- **Search query abuse**: Users extracting bulk sensitive data
-- **Credential security**: Managing Splunk service accounts and API tokens
-- **Data masking**: Protecting sensitive fields in shared dashboards
-
-### Target Persona
-
-| Role | Pain Points | Buying Authority |
-|------|-------------|------------------|
-| **Security Analyst** | Data leakage detection, insider threat | Influencer |
-| **Privacy Officer** | PII protection, GDPR compliance | Budget influencer |
-| **Splunk Security Admin** | Token management, access control | Technical decision maker |
-| **SOC Manager** | Visibility into Splunk as attack surface | Stakeholder |
-
-### Competitive Landscape
-
-| Existing Solution | Strengths | Gaps |
-|-------------------|-----------|------|
-| Splunk RBAC | Role-based access | No data-level masking, limited audit |
-| Third-party DLP tools | Broad coverage | Not Splunk-native, integration complexity |
-| Manual review | Thorough | Unscalable |
-
-### Product Opportunities
-
-1. **Sensitive Data Scanner**
-   - Automated PII/credential detection in ingested logs
-   - Pre-indexing data masking/redaction
-   - Compliance reporting (what sensitive data exists where)
-
-2. **Splunk Insider Threat Monitor**
-   - Behavioral analytics on Splunk user activity
-   - Anomalous search pattern detection
-   - Bulk data export alerting
-
-3. **Token & Credential Manager**
-   - API token lifecycle management
-   - Rotation automation
-   - Least-privilege recommendations
-   - Token usage auditing
-
-4. **Dynamic Data Masking Tool**
-   - Field-level masking based on user role
-   - Dashboard-safe data presentation
-   - Audit trail of unmasked access
+| Feature | Effort | Impact | Priority |
+|---------|--------|--------|----------|
+| Cost attribution by team/source | Medium | High | P0 |
+| License optimization recommendations | Medium | High | P0 |
+| Chargeback report generation | Low | Medium | P0 |
+| ML-based capacity forecasting | High | Medium | P1 |
+| Ingestion quota enforcement | High | Medium | P2 |
 
 ---
 
-## Vertical 4: Admin Tooling & DevOps
+## Vertical 3: Admin Tooling & DevOps
+
+> **Value Proposition:** *"Manage Splunk like modern infrastructure. GitOps workflows, not GUI clicks."*
 
 ### Problem Space
 
@@ -225,62 +225,169 @@ Splunk administrators face operational challenges managing complex deployments:
    - Cross-cluster search federation
    - Consistent policy enforcement
 
+### MVP Feature Set
+
+| Feature | Effort | Impact | Priority |
+|---------|--------|--------|----------|
+| GitOps config version control | Medium | High | P0 |
+| Configuration drift detection | Medium | High | P0 |
+| Search performance analyzer | Medium | High | P0 |
+| Automated health alerting | Low | Medium | P1 |
+| Multi-cluster unified view | High | Medium | P2 |
+
 ---
 
-## Vertical 5: User Analytics & Adoption
+## Vertical 4: User Governance & Accountability
+
+> **Value Proposition:** *"Make search efficiency everyone's problem. Turn bad habits into teachable moments."*
 
 ### Problem Space
 
-Organizations invest heavily in Splunk but struggle to measure and improve adoption:
+Splunk environments often suffer from inefficient usage patterns that waste resources and degrade performance for everyone. Key challenges:
 
-- **Usage visibility**: Who is actually using Splunk and for what?
-- **Training ROI**: Are training investments paying off?
-- **Search efficiency**: Are users writing effective searches?
-- **Dashboard effectiveness**: Which dashboards drive value vs. sit unused?
-- **Onboarding**: How to accelerate time-to-value for new users
+- **No accountability**: Users write inefficient searches with no feedback or consequences
+- **Resource hogs**: A few bad actors can consume disproportionate cluster resources
+- **Training gaps**: No visibility into which users need remediation vs. which are power users
+- **Search sprawl**: Inefficient saved searches and alerts running repeatedly
+- **Cultural challenge**: No incentive structure to improve search quality
 
 ### Target Persona
 
 | Role | Pain Points | Buying Authority |
 |------|-------------|------------------|
-| **Splunk Center of Excellence Lead** | Adoption metrics, training planning | Budget holder |
-| **IT Training Manager** | Measuring training effectiveness | Stakeholder |
-| **Splunk Admin** | Identifying power users vs. strugglers | Influencer |
-| **Business Analyst Manager** | Team productivity, best practices | Stakeholder |
+| **Splunk Center of Excellence Lead** | Driving best practices adoption, accountability | Budget holder |
+| **Splunk Admin** | Dealing with resource-heavy users, performance complaints | Technical decision maker |
+| **IT Operations Manager** | Cluster performance, capacity planning | Budget influencer |
+| **Team Leads** | Knowing which team members need training | Stakeholder |
 
 ### Competitive Landscape
 
 | Existing Solution | Strengths | Gaps |
 |-------------------|-----------|------|
-| Splunk audit logs | Raw data available | No actionable insights |
-| Internal surveys | Qualitative feedback | Not data-driven |
-| Manual tracking | Customizable | Unsustainable |
+| Splunk audit logs | Raw data available | No scoring, no actionable insights |
+| Monitoring Console | Performance data | Doesn't tie to specific users |
+| Manual review | Thorough | Unsustainable, reactive |
 
 ### Product Opportunities
 
-1. **Splunk Adoption Analytics Dashboard**
-   - User activity heatmaps
-   - Feature usage tracking
-   - Adoption trend analysis
-   - Benchmark against industry peers
+1. **"Wall of Sheep" User Scoring System** ⭐ *Key Differentiator*
+   - Efficiency score per user based on search history
+   - Leaderboards (gamification): top performers vs. "needs improvement"
+   - Weekly/monthly efficiency reports to team leads
+   - Trend analysis: is user improving or declining?
+   - Public dashboard visibility (opt-in shaming/recognition)
 
-2. **Search Efficiency Coach**
-   - Real-time SPL optimization suggestions
-   - Best practice recommendations
-   - Learning resources based on user behavior
-   - Gamification elements (badges, leaderboards)
+2. **Inefficient Query Detection Engine**
+   - Real-time flagging of expensive searches
+   - Pattern detection: "this user always does X inefficiently"
+   - Automated suggestions: "try this instead"
+   - Block/warn on known anti-patterns (e.g., `index=*`, unbounded time ranges)
 
-3. **Dashboard Value Analyzer**
-   - Usage metrics per dashboard
-   - Unused dashboard identification
-   - User satisfaction signals
-   - Deprecation recommendations
+3. **Training Recommendation System**
+   - Skill gap analysis based on actual search patterns
+   - Personalized learning paths
+   - Tie training completion to efficiency score improvements
+   - Integration with Splunk Education or internal training platforms
 
-4. **Personalized Learning Path Generator**
-   - Skill gap analysis based on search patterns
-   - Tailored training recommendations
-   - Progress tracking
-   - Integration with Splunk Education
+4. **Search Governance Policy Engine**
+   - Define org-wide search policies (max time range, required filters)
+   - Warning vs. blocking modes
+   - Exception workflows for legitimate needs
+   - Policy compliance reporting
+
+5. **Resource Chargeback by User**
+   - Compute cost attribution to individual users
+   - Team/department rollups
+   - Monthly "bills" showing search cost
+   - Incentivize efficient behavior through visibility
+
+### MVP Feature Set
+
+| Feature | Effort | Impact | Priority |
+|---------|--------|--------|----------|
+| User efficiency scoring algorithm | Medium | High | P0 |
+| Leaderboard dashboard | Low | Medium | P0 |
+| Inefficient query detection | Medium | High | P0 |
+| Training recommendations | Medium | Medium | P1 |
+| Policy engine | High | Medium | P2 |
+
+---
+
+## Vertical 5: Dashboard & Visualization
+
+> **Value Proposition:** *"Enterprise-grade dashboards in one click. Stop reinventing the wheel."*
+
+### Problem Space
+
+Splunk dashboards are powerful but often inconsistent, ugly, and difficult to maintain. Organizations struggle with:
+
+- **Inconsistent UX**: Every team creates dashboards differently with no standard look and feel
+- **Branding gaps**: Dashboards don't match corporate identity or executive expectations
+- **Template sprawl**: Reinventing the wheel for common dashboard patterns
+- **Maintenance burden**: Updating dozens of dashboards when requirements change
+- **Sharing limitations**: Dashboards that look good in Splunk but terrible in exports/PDFs
+- **Mobile experience**: Poor rendering on tablets and phones used by executives
+
+### Target Persona
+
+| Role | Pain Points | Buying Authority |
+|------|-------------|------------------|
+| **Dashboard Authors** | Repetitive work, inconsistent standards | Influencer |
+| **Splunk Center of Excellence** | Enforcing standards, reducing duplication | Budget holder |
+| **Business Stakeholders** | Ugly dashboards, poor UX | Executive sponsor |
+| **Splunk Admin** | Dashboard proliferation, maintenance overhead | Technical decision maker |
+
+### Competitive Landscape
+
+| Existing Solution | Strengths | Gaps |
+|-------------------|-----------|------|
+| Splunk Dashboard Studio | Modern framework | Steep learning curve, no templating |
+| Classic Simple XML | Well understood | Dated appearance, limited customization |
+| Custom CSS/JS | Full control | Fragile, maintenance nightmare |
+| BI tools (Tableau, PowerBI) | Beautiful output | Requires data export, loses real-time |
+
+### Product Opportunities
+
+1. **Dashboard Template Library**
+   - Pre-built templates for common use cases (NOC, executive summary, incident tracking)
+   - Configurable color schemes and branding
+   - One-click template application
+   - Version-controlled template updates
+
+2. **Dashboard Beautification Toolkit**
+   - Automated style enforcement and cleanup
+   - Brand color palette integration
+   - Consistent iconography and visualization standards
+   - "Beautify" button for one-click improvement
+
+3. **Component Library & Design System**
+   - Reusable visualization components
+   - Shared input controls and filters
+   - Consistent panel layouts
+   - Drag-and-drop composition
+
+4. **Export & Sharing Enhancement**
+   - PDF export with professional formatting
+   - Scheduled report beautification
+   - Executive-ready email formatting
+   - Mobile-optimized views
+
+5. **Dashboard Governance Tools**
+   - Centralized dashboard inventory
+   - Usage analytics (which dashboards get viewed)
+   - Duplication detection
+   - Deprecation workflows
+
+### MVP Feature Set
+
+| Feature | Effort | Impact | Priority |
+|---------|--------|--------|----------|
+| Pre-built dashboard templates | Medium | High | P0 |
+| Brand/color scheme configuration | Low | High | P0 |
+| One-click beautify tool | Medium | High | P0 |
+| Reusable component library | Medium | Medium | P1 |
+| Dashboard inventory/governance | Low | Medium | P1 |
+| Enhanced PDF export | Medium | Medium | P2 |
 
 ---
 
@@ -291,8 +398,10 @@ Some products could span multiple verticals:
 | Product Concept | Verticals Addressed |
 |-----------------|---------------------|
 | **Unified Splunk Observability Platform** | Admin Tooling + Cost Management |
-| **Splunk Governance Suite** | Governance + Security + User Analytics |
+| **Splunk Governance Suite** | Governance & Compliance + User Governance |
 | **Splunk FinOps + Admin Bundle** | Cost Management + Admin Tooling |
+| **User Excellence Platform** | User Governance + Cost Management |
+| **Splunk UX Suite** | Dashboard & Visualization + User Governance |
 
 ---
 
@@ -310,11 +419,51 @@ When evaluating which vertical to pursue first, consider:
 
 ### Suggested Priority Order
 
-1. **Cost Management** - Universal pain point, clear ROI story, underserved market
-2. **Admin Tooling** - High-value, technical buyers with budget authority
-3. **Governance & Compliance** - Regulatory pressure creating urgency
-4. **Security & Privacy** - Growing concern but overlaps with existing tools
-5. **User Analytics** - Nice-to-have, harder ROI justification
+1. **Cost Management & FinOps** - Universal pain point, clear ROI story, underserved market
+2. **User Governance & Accountability** - Unique "Wall of Sheep" positioning, ties directly to cost savings, minimal competition
+3. **Admin Tooling & DevOps** - High-value, technical buyers with budget authority
+4. **Governance & Compliance** - Regulatory pressure creating urgency, PII detection is high-value
+5. **Dashboard & Visualization** - Broad appeal, lower barrier to entry, good "land" product
+
+### Why This Priority Order?
+
+**Cost Management (#1)**: Every Splunk customer feels license pain. Clear ROI story makes this an easy sell with quantifiable savings.
+
+**User Governance (#2)**: The "Wall of Sheep" concept is a **differentiator** with several advantages:
+- **Unique positioning**: No one else does user-level accountability scoring
+- **Clear ROI**: Inefficient searches = wasted license dollars = quantifiable savings
+- **Viral potential**: Leaderboards create internal buzz and organic adoption
+- **Lightweight MVP**: Can build initial scoring + dashboard quickly
+- **Gateway product**: Leads naturally into Cost Management and Admin Tooling upsells
+
+**Admin Tooling (#3)**: Technical buyers with budget authority. GitOps workflows resonate with modern platform teams.
+
+**Governance & Compliance (#4)**: Regulatory pressure creates urgency. PII detection addresses growing privacy concerns.
+
+**Dashboard & Visualization (#5)**: Lower ticket size but broader appeal. Good for "land and expand" motion.
+
+---
+
+## Market Differentiation Summary
+
+### Key Competitive Advantages by Vertical
+
+| Vertical | Differentiation Opportunity | Defensibility |
+|----------|----------------------------|---------------|
+| **Governance & Compliance** | PII scanner with pre-indexing remediation, regulatory-specific dashboards | Compliance mappings, pattern libraries |
+| **Cost Management** | Attribution + optimization in one tool (vs. visibility-only solutions) | Cost models, ML forecasting |
+| **Admin Tooling** | GitOps-native approach (vs. GUI-only competitors) | Workflow integrations, drift detection rules |
+| **User Governance** | "Wall of Sheep" scoring (unique in market), gamification | Scoring algorithms, training mappings |
+| **Dashboard/Viz** | One-click beautification with brand enforcement | Template library, component ecosystem |
+
+### Blue Ocean vs. Red Ocean
+
+| Blue Ocean (Less Competition) | Red Ocean (Crowded) |
+|-------------------------------|---------------------|
+| User Governance scoring | Basic cost visibility |
+| PII detection with remediation | Audit log dashboards |
+| GitOps for Splunk configs | Performance monitoring |
+| Dashboard templates | Manual compliance tracking |
 
 ---
 
@@ -328,5 +477,7 @@ When evaluating which vertical to pursue first, consider:
 ---
 
 *Document created: 2026-01-27*
+*Last updated: 2026-01-28*
 *Author: Henry (Autonomous AI)*
 *Status: Draft for review*
+*Version: 2.1 - Added value propositions for sales positioning*

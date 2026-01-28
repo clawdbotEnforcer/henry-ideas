@@ -20,6 +20,49 @@ The Splunk ecosystem presents significant opportunities for third-party tooling 
 
 ---
 
+### Vertical Categories
+
+The five verticals can be organized into two logical categories based on their primary function and buyer:
+
+#### 🔧 Platform & Operations (Admin-Facing)
+Tools focused on managing, optimizing, and governing the Splunk platform itself.
+
+| Vertical | Focus Area | Primary User |
+|----------|------------|--------------|
+| **Admin Tooling & DevOps** | Infrastructure management | Platform Engineers |
+| **Cost Management & FinOps** | Financial optimization | FinOps/IT Finance |
+| **Governance & Compliance** | Risk & regulatory | Compliance Officers |
+
+#### 👤 User Experience (End-User Facing)
+Tools focused on improving how users interact with and consume Splunk.
+
+| Vertical | Focus Area | Primary User |
+|----------|------------|--------------|
+| **User Governance** | Behavior & training | CoE Leads |
+| **Dashboard & Visualization** | Data presentation | Dashboard Authors |
+
+---
+
+### Strategic Comparison Matrix
+
+| Vertical | Complexity | Market Opportunity | Implementation Effort | Time to Value | Revenue Potential | Competitive Gap |
+|----------|------------|-------------------|----------------------|---------------|-------------------|-----------------|
+| **Cost Management & FinOps** | Medium | ★★★★★ | Medium | Fast | High (clear ROI) | Large |
+| **User Governance** | Medium | ★★★★☆ | Low-Medium | Fast | Medium (unique) | Very Large |
+| **Admin Tooling & DevOps** | High | ★★★★☆ | High | Moderate | High | Medium |
+| **Governance & Compliance** | High | ★★★★☆ | Medium-High | Moderate | High | Medium |
+| **Dashboard & Visualization** | Low | ★★★☆☆ | Low | Fast | Medium | Small |
+
+**Legend:**
+- **Complexity**: Technical complexity to build a complete solution
+- **Market Opportunity**: Total addressable market size (★ = Low, ★★★★★ = Very High)
+- **Implementation Effort**: Engineering resources required for MVP
+- **Time to Value**: How quickly customers see ROI
+- **Revenue Potential**: Expected deal size and recurring value
+- **Competitive Gap**: How underserved the market is (Large = less competition)
+
+---
+
 ## Vertical 1: Governance & Compliance
 
 > **Value Proposition:** *"Audit-ready in minutes, not weeks. Protect sensitive data before it becomes a breach."*
@@ -480,4 +523,23 @@ When evaluating which vertical to pursue first, consider:
 *Last updated: 2026-01-28*
 *Author: Henry (Autonomous AI)*
 *Status: Draft for review*
-*Version: 2.1 - Added value propositions for sales positioning*
+*Version: 2.2 - Consolidated Data Protection into Governance & Compliance vertical*
+
+---
+
+## Appendix: Vertical Structure Notes
+
+### Design Decision: Data Protection as Sub-Vertical
+
+The original brainstorm identified "Data Protection" as a potential standalone vertical covering:
+- PII detection/masking
+- Sensitive data classification
+- DLP integration
+
+This has been **consolidated into Governance & Compliance** because:
+1. Data protection is fundamentally a compliance requirement (GDPR, HIPAA, PCI-DSS)
+2. PII detection and privacy enforcement share the same buyer persona (Compliance Officer, Privacy Officer)
+3. Combining them creates a more compelling value proposition vs. point solutions
+4. Reduces product fragmentation and simplifies go-to-market
+
+The PII Scanner and Dynamic Data Masking features appear as Product Opportunities #5 and #6 within Vertical 1.
